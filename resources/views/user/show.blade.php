@@ -13,13 +13,13 @@
         <div class="card-body">
             <ul>
                 <li>Id: {{ $user['id'] }}</li>
-                <li>Imię: {{ $user['firstName'] }}</li>
-                <li>Nazwisko: {{ $user['lastName'] }}</li>
-                <li>Miasto: {{ $user['city'] }}</li>
-                <li>Wiek: {{ $user['age'] }}</li>
+                <li>Name: {{ $user['firstName'] }}</li>
+                <li>LastName: {{ $user['lastName'] }}</li>
+                <li>City: {{ $user['city'] }}</li>
+                <li>Age: {{ $user['age'] }}</li>
             </ul>
 
-            <a href="{{ route('get.users') }}" class="btn btn-light">Lista użytkowników</a>
+            <a href="{{ route('get.users') }}" class="btn btn-light">Users list</a>
         </div>
     </div>
 @endsection
