@@ -24,7 +24,7 @@ class GamesSeeder extends Seeder
                 'published' => $faker->date(),
                 'publi_id' => $faker->numberBetween(1,6),
                 'genre_id' => $faker->numberBetween(1,5),
-                'score' => $faker->numberBetween(0,10),
+                'score' => $faker->numberBetween(0,100),
                 'lang' => $faker->randomElement(['pl','en','ge','ru']),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

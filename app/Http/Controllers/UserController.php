@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function show(Request $request, int $userId)
     {
-        $session = $request->session()->get('prevAction');
+        $prevAction = $request->session()->get('prevAction');
         $faker = Factory::create();
         $user = [
             'id' => $userId,
