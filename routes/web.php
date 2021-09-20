@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\GameController;
+use App\Http\Middleware\RequestLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +48,8 @@ Route::group([
             ->name('dashboard');
 
         Route::get('', 'BuilderGameController@index')
-            ->name('list');
+            ->name('list')
+            ->middleware('pageValidator');
 
         Route::get('{game}', 'BuilderGameController@show')
             ->name('show');
@@ -57,17 +60,30 @@ Route::group([
 Route::group([
     'prefix' => 'e/games',
     'namespace' => 'Game',
-    'as' => 'games.e.'
+    'as' => 'games.e.',
+    //'middleware' => ['logger']
+    //'middleware' => [RequestLog::class]
     ],
     function() {
+        // Route:: middleware(['logger'])->group(
+        //     function() {
+        // dwa różne sposoby dodawania middlewareów
+        //     }
+        // );
         Route::get('dashboard', 'EloquentGameController@dashboard')
             ->name('dashboard');
+            //->middleware('logger');
 
         Route::get('', 'EloquentGameController@index')
-            ->name('list');
+            ->name('list')
+            ->middleware('pageValidator');
 
         Route::get('{game}', 'EloquentGameController@show')
             ->name('show');
 });
 
 
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');

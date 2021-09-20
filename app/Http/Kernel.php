@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\PageValidator;
+use App\Http\Middleware\RequestLog;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -43,6 +45,14 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'logger' => [
+            RequestLog::class
+        ],
+
+        'pageValidator' => [
+            PageValidator::class
+        ]
     ];
 
     /**
