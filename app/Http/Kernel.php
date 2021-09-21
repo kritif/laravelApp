@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\PageValidator;
+use GuzzleHttp\Middleware;
 use App\Http\Middleware\RequestLog;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -46,12 +46,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
-        'logger' => [
+        'profiling' => [
             RequestLog::class
-        ],
-
-        'pageValidator' => [
-            PageValidator::class
         ]
     ];
 
@@ -73,5 +69,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'requestLog' => RequestLog::class,
+        RequestLog::class => RequestLog::class
     ];
 }

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\GameController;
 use App\Http\Middleware\RequestLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,69 +20,69 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Home\MainPage')
     ->name('home.mainPage');
 
-//USERS
-Route::group(['prefix' => 'users'], function() {
-    Route::get('', 'UserController@list')
+
+// USERS
+Route::get('users', 'UserController@list')
     ->name('get.users');
 
-    Route::get('{userId}', 'UserController@show')
-        ->name('get.user.show');
+Route::get('users/{userId}', 'UserController@show')
+    ->name('get.user.show');
 
-    //Route::get('users/{id}/profile', 'User\ProfilController@show')
-    //    ->name('get.user.profile');
+//Route::get('users/{id}/profile', 'User\ProfilController@show')
+//    ->name('get.user.profile');
 
-    Route::get('{id}/address', 'User\ShowAddress')
-        ->where(['id' => '[0-9]+'])
-        ->name('get.users.address');
-});
+Route::get('users/{id}/address', 'User\ShowAddress')
+    ->where(['id' => '[0-9]+'])
+    ->name('get.users.address');
 
-//GAMES BUILDER
+
+// GAMES
 Route::group([
     'prefix' => 'b/games',
     'namespace' => 'Game',
     'as' => 'games.b.'
-    ],
-    function() {
-        Route::get('dashboard', 'BuilderGameController@dashboard')
-            ->name('dashboard');
+], function () {
+    Route::get('dashboard', 'BuilderController@dashboard')
+        ->name('dashboard');
 
-        Route::get('', 'BuilderGameController@index')
-            ->name('list')
-            ->middleware('pageValidator');
+    Route::get('', 'BuilderController@index')
+        ->name('list');
 
-        Route::get('{game}', 'BuilderGameController@show')
-            ->name('show');
+    Route::get('{game}', 'BuilderController@show')
+        ->name('show');
 });
-
-//GAMES ELOQUENT
 
 Route::group([
     'prefix' => 'e/games',
     'namespace' => 'Game',
     'as' => 'games.e.',
-    //'middleware' => ['logger']
-    //'middleware' => [RequestLog::class]
-    ],
-    function() {
-        // Route:: middleware(['logger'])->group(
-        //     function() {
-        // dwa różne sposoby dodawania middlewareów
-        //     }
-        // );
-        Route::get('dashboard', 'EloquentGameController@dashboard')
+    //'middleware' => ['profiling']
+], function () {
+
+    Route::get('dashboard', 'EloquentController@dashboard')
+    ->name('dashboard');
+
+    Route::get('', 'EloquentController@index')
+        ->name('list');
+
+    Route::get('{game}', 'EloquentController@show')
+        ->name('show');
+
+    /*
+    Route::middleware([RequestLog::class])->group(
+        function() {
+            Route::get('dashboard', 'EloquentController@dashboard')
             ->name('dashboard');
-            //->middleware('logger');
 
-        Route::get('', 'EloquentGameController@index')
-            ->name('list')
-            ->middleware('pageValidator');
+            Route::get('', 'EloquentController@index')
+                ->name('list');
 
-        Route::get('{game}', 'EloquentGameController@show')
-            ->name('show');
+            Route::get('{game}', 'EloquentController@show')
+                ->name('show');
+        }
+    );
+    */
 });
 
-
-
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');

@@ -22,9 +22,6 @@ class UserController extends Controller
             ];
         }
 
-        $session = $request->session();
-        $session->put('prevAction', __METHOD__ . time());
-
         return view('user.list', [
             'users' => $users
         ]);
@@ -32,7 +29,25 @@ class UserController extends Controller
 
     public function show(Request $request, int $userId)
     {
-        $prevAction = $request->session()->get('prevAction');
+        $faker = Factory::create();
+        $user = [
+            'id' => $userId,
+            'name' => $faker->name,
+            'firstName' => $faker->firstName,
+            'lastName' => $faker->lastName,
+            'city' => $faker->city,
+            'age' => $faker->numberBetween(12, 25),
+            'html' => '<script>alert("XSS")</script>'
+        ];
+
+        return view('user.show', [
+            'user' => $user,
+            'nick' => true
+        ]);
+    }
+
+    public function show_helper(Request $request, int $userId)
+    {
         $faker = Factory::create();
         $user = [
             'id' => $userId,
